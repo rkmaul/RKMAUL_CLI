@@ -119,6 +119,29 @@ Future<void> configureInjection({
     getIt.init(environment: environment.name);
 ''');
 
+  final pubspecPath = '$path/pubspec.yaml';
+  final pubspecFile = File(pubspecPath);
+
+  if (pubspecFile.existsSync()) {
+    final lines = pubspecFile.readAsLinesSync();
+
+    final updatedLines = <String>[];
+    var inDependencies = false;
+
+    for (final line in lines) {
+      updatedLines.add(line);
+
+      if (line.trim() == 'dependencies:') {
+        inDependencies = true;
+      } else if (inDependencies && line.trim().startsWith('flutter:')) {
+        updatedLines.add('  feature_common:\n    path: ../../presentation/feature_common');
+        inDependencies = false; // avoid adding multiple times
+      }
+    }
+
+    pubspecFile.writeAsStringSync(updatedLines.join('\n'));
+  }
+
   print('✅ Feature $packageName created at $path');
 }
 
