@@ -25,20 +25,21 @@ class GenerateCommand extends Command {
     Directory(configPath).createSync(recursive: true);
     Directory(diPath).createSync(recursive: true);
 
-    // Write config files
-    final configFile = File('$configPath/feature_${featureName}_config.dart');
-    configFile.writeAsStringSync('''
+    final pascalName = _capitalize(featureName);
+
+    // --- CONFIG FILES ---
+    File('$configPath/feature_${featureName}_config.dart').writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
 import '../di/di.dart' as di;
 
-class Feature${_capitalize(featureName)}Config extends ConfigPackage {
-  Feature${_capitalize(featureName)}Config._();
+class Feature${pascalName}Config extends ConfigPackage {
+  Feature${pascalName}Config._();
 
-  factory Feature${_capitalize(featureName)}Config.getInstance() {
+  factory Feature${pascalName}Config.getInstance() {
     return _instance;
   }
 
-  static final Feature${_capitalize(featureName)}Config _instance = Feature${_capitalize(featureName)}Config._();
+  static final Feature${pascalName}Config _instance = Feature${pascalName}Config._();
 
   @override
   Future<bool> config({
@@ -50,28 +51,24 @@ class Feature${_capitalize(featureName)}Config extends ConfigPackage {
 }
 ''');
 
-    final routeFile = File('$configPath/feature_${featureName}_route.dart');
-    routeFile.writeAsStringSync('''
+    File('$configPath/feature_${featureName}_route.dart').writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
 import 'package:feature_$featureName/src/config/feature_${featureName}_route.gm.dart';
 
 @AutoRouterConfig.module(replaceInRouteName: 'Page,Route')
-class Feature${_capitalize(featureName)}Router extends \$Feature${_capitalize(featureName)}Router {}
+class Feature${pascalName}Router extends \$Feature${pascalName}Router {}
 ''');
 
-    final routeGmFile = File('$configPath/feature_${featureName}_route.gm.dart');
-    routeGmFile.writeAsStringSync('// Generated route config for $featureName');
+    File('$configPath/feature_${featureName}_route.gm.dart').writeAsStringSync('// Generated route config for $featureName');
 
-    final exportFile = File('$baseFeaturePath/config.dart');
-    exportFile.writeAsStringSync('''
+    File('$baseFeaturePath/config.dart').writeAsStringSync('''
 export 'src/config/feature_${featureName}_config.dart';
 export 'src/config/feature_${featureName}_route.dart';
 export 'src/config/feature_${featureName}_route.gm.dart';
 ''');
 
-    // Write DI file
-    final diFile = File('$diPath/di.dart');
-    diFile.writeAsStringSync('''
+    // --- DI FILE ---
+    File('$diPath/di.dart').writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
 
 import '../di/di.config.dart';
