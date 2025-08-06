@@ -18,14 +18,19 @@ class GenerateCommand extends Command {
       return;
     }
 
-    final basePath = 'packages/presentation/feature_$featureName/lib/src/config';
+    final baseFeaturePath = 'packages/presentation/feature_$featureName/lib';
+    final configPath = '$baseFeaturePath/src/config';
+    final diPath = '$baseFeaturePath/src/di';
 
-    final configDir = Directory(basePath)..createSync(recursive: true);
+    // Create directories
+    Directory(configPath).createSync(recursive: true);
+    Directory(diPath).createSync(recursive: true);
 
-    final configFile = File('$basePath/feature_${featureName}_config.dart');
-    final routeFile = File('$basePath/feature_${featureName}_route.dart');
-    final routeGmFile = File('$basePath/feature_${featureName}_route.gm.dart');
-    final exportFile = File('$basePath/../config.dart');
+    // Create config files
+    final configFile = File('$configPath/feature_${featureName}_config.dart');
+    final routeFile = File('$configPath/feature_${featureName}_route.dart');
+    final routeGmFile = File('$configPath/feature_${featureName}_route.gm.dart');
+    final exportFile = File('$baseFeaturePath/config.dart');
 
     configFile.writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
@@ -66,7 +71,23 @@ export 'config/feature_${featureName}_route.dart';
 export 'config/feature_${featureName}_route.gm.dart';
 ''');
 
-    print('✅ Feature "$featureName" generated at $basePath');
+    // Create di.dart file
+    final diFile = File('$diPath/di.dart');
+    diFile.writeAsStringSync('''
+import 'package:feature_common/feature_common.dart';
+
+import '../di/di.config.dart';
+
+final GetIt getIt = GetIt.instance;
+
+@injectableInit
+Future<void> configureInjection({
+  Environment environment = environmentDevelopment,
+}) async =>
+    getIt.init(environment: environment.name);
+''');
+
+    print('✅ Feature "$featureName" generated at $baseFeaturePath');
   }
 
   String _capitalize(String value) {
