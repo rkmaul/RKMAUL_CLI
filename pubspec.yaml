@@ -8,4 +8,4 @@ dependencies:
   args: ^2.0.0
 
 executables:
-  rkmaul_cli:
+  rkmaul_cli: bin/rkmaul_cli.dart
