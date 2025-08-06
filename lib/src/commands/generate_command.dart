@@ -26,7 +26,7 @@ class GenerateCommand extends Command {
     Directory(configPath).createSync(recursive: true);
     Directory(diPath).createSync(recursive: true);
 
-    // Create config files
+    // === CONFIG FILES ===
     final configFile = File('$configPath/feature_${featureName}_config.dart');
     final routeFile = File('$configPath/feature_${featureName}_route.dart');
     final routeGmFile = File('$configPath/feature_${featureName}_route.gm.dart');
@@ -71,7 +71,7 @@ export 'config/feature_${featureName}_route.dart';
 export 'config/feature_${featureName}_route.gm.dart';
 ''');
 
-    // Create di.dart file
+    // === DI FILE ===
     final diFile = File('$diPath/di.dart');
     diFile.writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
