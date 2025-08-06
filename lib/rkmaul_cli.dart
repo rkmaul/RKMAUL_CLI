@@ -45,7 +45,6 @@ void createFeature(String name) {
   File('$path/lib/src/page/page.dart').createSync();
   File('$path/lib/src/widget/widget.dart').createSync();
   File('$path/lib/src/route/route.dart').createSync();
-  File('$path/lib/src/di/di.dart').createSync();
 
   // 4. Generate config files
   File('$path/lib/src/config/${packageName}_config.dart')
@@ -103,6 +102,21 @@ export 'src/widget/widget.dart';
 export 'src/route/route.dart';
 export 'src/config/config.dart';
 export 'src/di/di.dart';
+''');
+
+  // --- DI FILE ---
+  File('$path/lib/src/di.dart').writeAsStringSync('''
+import 'package:feature_common/feature_common.dart';
+
+import '../di/di.config.dart';
+
+final GetIt getIt = GetIt.instance;
+
+@injectableInit
+Future<void> configureInjection({
+  Environment environment = environmentDevelopment,
+}) async =>
+    getIt.init(environment: environment.name);
 ''');
 
   print('✅ Feature $packageName created at $path');
