@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:args/command_runner.dart';
 
 class GenerateCommand extends Command {
@@ -26,12 +25,8 @@ class GenerateCommand extends Command {
     Directory(configPath).createSync(recursive: true);
     Directory(diPath).createSync(recursive: true);
 
-    // === CONFIG FILES ===
+    // Write config files
     final configFile = File('$configPath/feature_${featureName}_config.dart');
-    final routeFile = File('$configPath/feature_${featureName}_route.dart');
-    final routeGmFile = File('$configPath/feature_${featureName}_route.gm.dart');
-    final exportFile = File('$baseFeaturePath/config.dart');
-
     configFile.writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
 import '../di/di.dart' as di;
@@ -55,6 +50,7 @@ class Feature${_capitalize(featureName)}Config extends ConfigPackage {
 }
 ''');
 
+    final routeFile = File('$configPath/feature_${featureName}_route.dart');
     routeFile.writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
 import 'package:feature_$featureName/src/config/feature_${featureName}_route.gm.dart';
@@ -63,15 +59,17 @@ import 'package:feature_$featureName/src/config/feature_${featureName}_route.gm.
 class Feature${_capitalize(featureName)}Router extends \$Feature${_capitalize(featureName)}Router {}
 ''');
 
+    final routeGmFile = File('$configPath/feature_${featureName}_route.gm.dart');
     routeGmFile.writeAsStringSync('// Generated route config for $featureName');
 
+    final exportFile = File('$baseFeaturePath/config.dart');
     exportFile.writeAsStringSync('''
-export 'config/feature_${featureName}_config.dart';
-export 'config/feature_${featureName}_route.dart';
-export 'config/feature_${featureName}_route.gm.dart';
+export 'src/config/feature_${featureName}_config.dart';
+export 'src/config/feature_${featureName}_route.dart';
+export 'src/config/feature_${featureName}_route.gm.dart';
 ''');
 
-    // === DI FILE ===
+    // Write DI file
     final diFile = File('$diPath/di.dart');
     diFile.writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
