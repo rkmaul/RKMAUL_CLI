@@ -126,21 +126,33 @@ Future<void> configureInjection({
     final lines = pubspecFile.readAsLinesSync();
 
     final updatedLines = <String>[];
-    var inDependencies = false;
+    bool insideFlutterBlock = false;
+    bool featureCommonAdded = false;
 
-    for (final line in lines) {
+    for (int i = 0; i < lines.length; i++) {
+      final line = lines[i];
       updatedLines.add(line);
 
-      if (line.trim() == 'dependencies:') {
-        inDependencies = true;
-      } else if (inDependencies && line.trim().startsWith('flutter:\n    sdk: flutter\n')) {
-        updatedLines.add('  feature_common:\n    path: ../../presentation/feature_common');
-        inDependencies = false; // avoid adding multiple times
+      if (line.trim() == 'flutter:') {
+        insideFlutterBlock = true;
+      } else if (insideFlutterBlock && line.trim().startsWith('sdk:')) {
+        // Add feature_common after sdk: flutter
+        updatedLines.add('  feature_common:');
+        updatedLines.add('    path: ../../presentation/feature_common');
+        featureCommonAdded = true;
+        insideFlutterBlock = false; // prevent multiple inserts
       }
+    }
+
+    // Backup if somehow not added
+    if (!featureCommonAdded) {
+      updatedLines.add('feature_common:');
+      updatedLines.add('  path: ../../presentation/feature_common');
     }
 
     pubspecFile.writeAsStringSync(updatedLines.join('\n'));
   }
+
 
   print('✅ Feature $packageName created at $path');
 }
