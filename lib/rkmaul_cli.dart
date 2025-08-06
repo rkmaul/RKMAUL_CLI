@@ -25,7 +25,7 @@ void run(List<String> arguments) {
 void createFeature(String name) {
   final packageName = 'feature_$name';
   final path = 'packages/presentation/$packageName';
-  final className = _toPascalCase(name); // misal: auth → Auth
+  final className = _toPascalCase(name);
 
   print('🚀 Creating feature: $packageName');
 
@@ -105,7 +105,7 @@ export 'src/di/di.dart';
 ''');
 
   // --- DI FILE ---
-  File('$path/lib/src/di.dart').writeAsStringSync('''
+  File('$path/lib/src/di/di.dart').writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
 
 import '../di/di.config.dart';
