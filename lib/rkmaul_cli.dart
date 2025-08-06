@@ -53,14 +53,14 @@ void createFeature(String name) {
 import 'package:feature_common/feature_common.dart';
 import '../di/di.dart' as di;
 
-class ${className}Config extends ConfigPackage {
-  ${className}Config._();
+class Feature${className}Config extends ConfigPackage {
+  Feature${className}Config._();
 
-  factory ${className}Config.getInstance() {
+  factory Feature${className}Config.getInstance() {
     return _instance;
   }
 
-  static final ${className}Config _instance = ${className}Config._();
+  static final Feature${className}Config _instance = Feature${className}Config._();
 
   @override
   Future<bool> config({
