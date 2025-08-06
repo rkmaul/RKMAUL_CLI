@@ -133,7 +133,7 @@ Future<void> configureInjection({
 
       if (line.trim() == 'dependencies:') {
         inDependencies = true;
-      } else if (inDependencies && line.trim().startsWith('flutter:')) {
+      } else if (inDependencies && line.trim().startsWith('flutter:\n    sdk: flutter\n')) {
         updatedLines.add('  feature_common:\n    path: ../../presentation/feature_common');
         inDependencies = false; // avoid adding multiple times
       }
