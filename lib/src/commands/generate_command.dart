@@ -28,44 +28,44 @@ class GenerateCommand extends Command {
     final pascalName = _capitalize(featureName);
 
     // --- CONFIG FILES ---
-    File('$configPath/feature_${featureName}_config.dart').writeAsStringSync('''
-import 'package:feature_common/feature_common.dart';
-import '../di/di.dart' as di;
-
-class Feature${pascalName}Config extends ConfigPackage {
-  Feature${pascalName}Config._();
-
-  factory Feature${pascalName}Config.getInstance() {
-    return _instance;
-  }
-
-  static final Feature${pascalName}Config _instance = Feature${pascalName}Config._();
-
-  @override
-  Future<bool> config({
-    required Environment environment,
-  }) async {
-    await di.configureInjection(environment: environment);
-    return Future.value(true);
-  }
-}
-''');
-
-    File('$configPath/feature_${featureName}_route.dart').writeAsStringSync('''
-import 'package:feature_common/feature_common.dart';
-import 'package:feature_$featureName/src/config/feature_${featureName}_route.gm.dart';
-
-@AutoRouterConfig.module(replaceInRouteName: 'Page,Route')
-class Feature${pascalName}Router extends \$Feature${pascalName}Router {}
-''');
-
-    File('$configPath/feature_${featureName}_route.gm.dart').writeAsStringSync('// Generated route config for $featureName');
-
-    File('$baseFeaturePath/config.dart').writeAsStringSync('''
-export 'src/config/feature_${featureName}_config.dart';
-export 'src/config/feature_${featureName}_route.dart';
-export 'src/config/feature_${featureName}_route.gm.dart';
-''');
+//     File('$configPath/feature_${featureName}_config.dart').writeAsStringSync('''
+// import 'package:feature_common/feature_common.dart';
+// import '../di/di.dart' as di;
+//
+// class Feature${pascalName}Config extends ConfigPackage {
+//   Feature${pascalName}Config._();
+//
+//   factory Feature${pascalName}Config.getInstance() {
+//     return _instance;
+//   }
+//
+//   static final Feature${pascalName}Config _instance = Feature${pascalName}Config._();
+//
+//   @override
+//   Future<bool> config({
+//     required Environment environment,
+//   }) async {
+//     await di.configureInjection(environment: environment);
+//     return Future.value(true);
+//   }
+// }
+// ''');
+//
+//     File('$configPath/feature_${featureName}_route.dart').writeAsStringSync('''
+// import 'package:feature_common/feature_common.dart';
+// import 'package:feature_$featureName/src/config/feature_${featureName}_route.gm.dart';
+//
+// @AutoRouterConfig.module(replaceInRouteName: 'Page,Route')
+// class Feature${pascalName}Router extends \$Feature${pascalName}Router {}
+// ''');
+//
+//     File('$configPath/feature_${featureName}_route.gm.dart').writeAsStringSync('// Generated route config for $featureName');
+//
+//     File('$baseFeaturePath/config.dart').writeAsStringSync('''
+// export 'src/config/feature_${featureName}_config.dart';
+// export 'src/config/feature_${featureName}_route.dart';
+// export 'src/config/feature_${featureName}_route.gm.dart';
+// ''');
 
     // --- DI FILE ---
     File('$diPath/di.dart').writeAsStringSync('''
