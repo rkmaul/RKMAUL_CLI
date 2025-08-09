@@ -29,10 +29,10 @@ void createFeature(String name) {
 
   print('🚀 Creating feature: $packageName');
 
-  // 1. Buat package
+  // 1. CREATE PACKAGE
   Process.runSync('flutter', ['create', '--template=package', path]);
 
-  // 2. Buat folder struktur
+  // 2. CREATE FOLDER STRUCTURE
   Directory('$path/lib/src/bloc').createSync(recursive: true);
   Directory('$path/lib/src/page').createSync(recursive: true);
   Directory('$path/lib/src/widget').createSync(recursive: true);
@@ -40,13 +40,13 @@ void createFeature(String name) {
   Directory('$path/lib/src/config').createSync(recursive: true);
   Directory('$path/lib/src/di').createSync(recursive: true);
 
-  // 3. Generate file kosong
+  // 3.GENERATE EMPTY FILES
   File('$path/lib/src/bloc/bloc.dart').createSync();
   File('$path/lib/src/page/page.dart').createSync();
   File('$path/lib/src/widget/widget.dart').createSync();
   File('$path/lib/src/route/route.dart').createSync();
 
-  // 4. Generate config files
+  // 4. GENERATE CONFIG FILES
   File('$path/lib/src/config/${packageName}_config.dart')
     ..createSync()
     ..writeAsStringSync('''
@@ -72,14 +72,14 @@ class Feature${className}Config extends ConfigPackage {
 }
 ''');
 
-  File('$path/lib/src/config/${packageName}_route.dart')
+  File('$path/lib/src/config/${packageName}_router.dart')
     ..createSync()
     ..writeAsStringSync('''
 import 'package:feature_common/feature_common.dart';
-import 'package:$packageName/src/config/${packageName}_route.gm.dart';
+import 'package:$packageName/src/config/${packageName}_router.gm.dart';
 
 @AutoRouterConfig.module(replaceInRouteName: 'Page,Route')
-class ${className}Router extends \$${className}Router {}
+class Feature${className}Router extends \$Feature${className}Router {}
 ''');
 
   File('$path/lib/src/config/config.dart')
