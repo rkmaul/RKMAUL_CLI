@@ -41,10 +41,7 @@ void createFeature(String name) {
   Directory('$path/lib/src/di').createSync(recursive: true);
 
   // 3.GENERATE EMPTY FILES
-  File('$path/lib/src/bloc/bloc.dart').createSync();
-  File('$path/lib/src/page/page.dart').createSync();
-  File('$path/lib/src/widget/widget.dart').createSync();
-  File('$path/lib/src/route/route.dart').createSync();
+  File('$path/lib/src/page/${packageName}_page.dart').createSync();
 
   // 4. GENERATE CONFIG FILES
   File('$path/lib/src/config/${packageName}_config.dart')
