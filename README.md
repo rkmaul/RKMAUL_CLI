@@ -44,7 +44,7 @@ Make sure `pubspec.yaml` contains the proper `executables` config:
 
 ```yaml
 name: rkmaul_cli
-description: CLI pribadi untuk generate struktur feature
+description: PERSONAL CLI, FOR CREATE A FLUTTER PACKAGE
 version: 1.0.0
 environment:
   sdk: '>=3.0.0 <4.0.0'
