@@ -86,8 +86,8 @@ class Feature${className}Router extends \$Feature${className}Router {}
     ..createSync()
     ..writeAsStringSync('''
 export '${packageName}_config.dart';
-export '${packageName}_route.dart';
-export '${packageName}_route.gm.dart';
+export '${packageName}_router.dart';
+export '${packageName}_router.gm.dart';
 ''');
 
   // 5. Generate library export
