@@ -1,6 +1,6 @@
 # 🛠️ rkmaul_cli
 
-`rkmaul_cli` is a custom CLI tool for personal use, designed to help generate Flutter feature structures faster within a monorepo setup
+`rkmaul_cli` is a custom CLI tool for personal use, designed to help generate Flutter feature structures faster within a monorepo setup.
 
 ---
 
