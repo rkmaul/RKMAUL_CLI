@@ -2,7 +2,7 @@ import 'dart:io';
 
 void createBackendFeature(String name) {
   final featureName = name.toLowerCase();
-  final basePath = 'finory_pos_backend_server/lib/src/features/$featureName';
+  final basePath = '$featureName';
 
   final directories = [
     '$basePath/data/datasources',
