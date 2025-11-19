@@ -9,7 +9,6 @@ void createFeature(String name) {
   print('🚀 Creating feature: $packageName');
   createPackage(path);
 
-  // Folder structure
   Directory('$path/lib/src/bloc').createSync(recursive: true);
   Directory('$path/lib/src/page').createSync(recursive: true);
   Directory('$path/lib/src/widget').createSync(recursive: true);
@@ -17,10 +16,8 @@ void createFeature(String name) {
   Directory('$path/lib/src/config').createSync(recursive: true);
   Directory('$path/lib/src/di').createSync(recursive: true);
 
-  // Example file
   File('$path/lib/src/page/${packageName}_page.dart').createSync();
 
-  // Config files
   File('$path/lib/src/config/${packageName}_config.dart')
     ..createSync()
     ..writeAsStringSync('''

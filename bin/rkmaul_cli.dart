@@ -72,15 +72,15 @@ void _printUsage() {
 📦 rkmaul CLI — Command List
 
 💻 FRONTEND COMMANDS (Flutter App)
-  rk create-feature <feature_name>     → Generate a complete feature folder structure
-  rk create-domain <domain_name>       → Generate a domain layer structure
-  rk create-data <data_name>           → Generate a data layer structure
+  rkmaul_cli create-feature <feature_name>     → Generate a complete feature folder structure
+  rkmaul_cli create-domain <domain_name>       → Generate a domain layer structure
+  rkmaul_cli create-data <data_name>           → Generate a data layer structure
 
 🖥️ BACKEND COMMANDS (Serverpod Backend)
-  rk create-backend-feature <name>     → Generate a backend feature structure for Serverpod
+  rkmaul_cli create-backend-feature <name>     → Generate a backend feature structure for Serverpod
 
 Examples:
-  rk create-feature auth
-  rk create-backend-feature user
+  rkmaul_cli create-feature auth
+  rkmaul_cli create-backend-feature user
 ''');
 }
