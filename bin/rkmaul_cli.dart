@@ -9,6 +9,9 @@ import 'package:rkmaul_cli/src/commands/frontend/feature_command.dart';
 // BACKEND COMMANDS
 import 'package:rkmaul_cli/src/commands/backend/backend_feature_command.dart';
 
+// NATIVE ENGINE (KMP)
+import 'package:rkmaul_cli/src/commands/native/native_engine_command.dart';
+
 void main(List<String> arguments) {
   final parser = ArgParser();
 
@@ -30,6 +33,14 @@ void main(List<String> arguments) {
   parser
     ..addCommand('create-backend-feature');
 
+  /** ───────────────────────────────────────────────
+   * 🧠 NATIVE ENGINE (KMP)
+   * Generate KMP module for Flutter data layer
+   * ───────────────────────────────────────────────
+   */
+  parser
+    ..addCommand('create-native-engine');
+
   // Parse arguments
   final ArgResults argResults = parser.parse(arguments);
   final command = argResults.command?.name;
@@ -44,13 +55,16 @@ void main(List<String> arguments) {
 
   // Execute selected command
   switch (command) {
+
     /** ─────────── FRONTEND ─────────── */
     case 'create-feature':
       createFeature(name);
       break;
+
     case 'create-domain':
       createDomain(name);
       break;
+
     case 'create-data':
       createData(name);
       break;
@@ -58,6 +72,11 @@ void main(List<String> arguments) {
     /** ─────────── BACKEND ─────────── */
     case 'create-backend-feature':
       createBackendFeature(name);
+      break;
+
+    /** ─────────── NATIVE ENGINE (KMP) ─────────── */
+    case 'create-native-engine':
+      createNativeEngine(name);
       break;
 
     /** ─────────── DEFAULT ─────────── */
@@ -71,16 +90,23 @@ void _printUsage() {
   print('''
 📦 rkmaul CLI — Command List
 
-💻 FRONTEND COMMANDS (Flutter App)
-  rkmaul_cli create-feature <feature_name>     → Generate a complete feature folder structure
-  rkmaul_cli create-domain <domain_name>       → Generate a domain layer structure
-  rkmaul_cli create-data <data_name>           → Generate a data layer structure
+💻 FRONTEND (Flutter)
+  rkmaul_cli create-feature <feature_name>       
+  rkmaul_cli create-domain <domain_name>         
+  rkmaul_cli create-data <data_name>             
 
-🖥️ BACKEND COMMANDS (Serverpod Backend)
-  rkmaul_cli create-backend-feature <name>     → Generate a backend feature structure for Serverpod
+🖥️ BACKEND (Serverpod)
+  rkmaul_cli create-backend-feature <name>       
 
-Examples:
+⚙️ NATIVE ENGINE (KMP - Kotlin Multiplatform)
+  rkmaul_cli create-native-engine <engine_name>  
+    → Generate KMP module for Flutter data layer replacement
+
+📌 Examples:
   rkmaul_cli create-feature auth
-  rkmaul_cli create-backend-feature user
+  rkmaul_cli create-domain expenses
+  rkmaul_cli create-data transaction
+  rkmaul_cli create-backend-feature product
+  rkmaul_cli create-native-engine finance
 ''');
 }
