@@ -3,29 +3,34 @@ import 'dart:io';
 void createNativeEngine() {
   final path = 'native_engine';
 
-  print('🚀 Creating Native Engine Module');
+  print('🚀 Creating Native Engine Module...');
 
-  // Folder structure
-  Directory('$path').createSync(recursive: true);
+  // ROOT
+  Directory(path).createSync(recursive: true);
 
-  // Common
+  // COMMON
   Directory('$path/src/commonMain/kotlin/native/engine')
       .createSync(recursive: true);
   Directory('$path/src/commonMain/resources')
       .createSync(recursive: true);
 
-  // Android
+  // ANDROID
   Directory('$path/src/androidMain/kotlin/native/engine')
       .createSync(recursive: true);
 
-  // iOS
+  // IOS
   Directory('$path/src/iosMain/kotlin/native/engine')
       .createSync(recursive: true);
 
-  // Generate files
+  // ───────────────────────────────────────────────
+  // WRITE FILES
+  // ───────────────────────────────────────────────
+
+  // Gradle
   File('$path/build.gradle.kts')
       .writeAsStringSync(_gradleTemplate());
 
+  // Common Sources
   File('$path/src/commonMain/kotlin/native/engine/ApiService.kt')
       .writeAsStringSync(_apiServiceTemplate());
 
@@ -35,10 +40,20 @@ void createNativeEngine() {
   File('$path/src/commonMain/kotlin/native/engine/NativeModel.kt')
       .writeAsStringSync(_modelTemplate());
 
-  print('✅ Native Engine created successfully!');
+  // Android Placeholder
+  File('$path/src/androidMain/kotlin/native/engine/AndroidPlaceholder.kt')
+      .writeAsStringSync(_androidPlaceholder());
+
+  // iOS Placeholder
+  File('$path/src/iosMain/kotlin/native/engine/IOSPlaceholder.kt')
+      .writeAsStringSync(_iosPlaceholder());
+
+  print('✅ Native Engine created successfully! 🚀');
 }
 
-// Templates
+// ───────────────────────────────────────────────
+// GRADLE TEMPLATE
+// ───────────────────────────────────────────────
 
 String _gradleTemplate() => '''
 plugins {
@@ -70,6 +85,10 @@ android {
     compileSdk = 34
 }
 ''';
+
+// ───────────────────────────────────────────────
+// COMMON FILES
+// ───────────────────────────────────────────────
 
 String _apiServiceTemplate() => '''
 package native.engine
@@ -105,4 +124,24 @@ data class NativeModel(
     val id: Int,
     val title: String
 )
+''';
+
+// ───────────────────────────────────────────────
+// PLATFORM PLACEHOLDERS
+// ───────────────────────────────────────────────
+
+String _androidPlaceholder() => '''
+package native.engine
+
+class AndroidPlaceholder {
+    fun info(): String = "Android Native Engine Loaded (Placeholder)"
+}
+''';
+
+String _iosPlaceholder() => '''
+package native.engine
+
+class IOSPlaceholder {
+    fun info(): String = "iOS Native Engine Loaded (Placeholder)"
+}
 ''';
