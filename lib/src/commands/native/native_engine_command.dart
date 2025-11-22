@@ -1,35 +1,44 @@
 import 'dart:io';
 
 void createNativeEngine() {
-  const path = 'native_engine';
+  final path = 'native_engine';
 
-  print('🚀 Creating Native Engine Module: native_engine');
+  print('🚀 Creating Native Engine Module');
 
-  // Create folder structure
-  Directory(path).createSync(recursive: true);
-  Directory('$path/src/commonMain/kotlin/native/engine').createSync(recursive: true);
-  Directory('$path/src/commonMain/resources').createSync(recursive: true);
+  // Folder structure
+  Directory('$path').createSync(recursive: true);
 
-  Directory('$path/src/androidMain/kotlin/native/engine').createSync(recursive: true);
-  Directory('$path/src/iosMain/kotlin/native/engine').createSync(recursive: true);
+  // Common
+  Directory('$path/src/commonMain/kotlin/native/engine')
+      .createSync(recursive: true);
+  Directory('$path/src/commonMain/resources')
+      .createSync(recursive: true);
 
-  // Write Gradle
-  File('$path/build.gradle.kts').writeAsStringSync(_gradleTemplate());
+  // Android
+  Directory('$path/src/androidMain/kotlin/native/engine')
+      .createSync(recursive: true);
 
-  // Common API service
+  // iOS
+  Directory('$path/src/iosMain/kotlin/native/engine')
+      .createSync(recursive: true);
+
+  // Generate files
+  File('$path/build.gradle.kts')
+      .writeAsStringSync(_gradleTemplate());
+
   File('$path/src/commonMain/kotlin/native/engine/ApiService.kt')
       .writeAsStringSync(_apiServiceTemplate());
 
-  // Repository
   File('$path/src/commonMain/kotlin/native/engine/NativeRepository.kt')
       .writeAsStringSync(_repositoryTemplate());
 
-  // Model
   File('$path/src/commonMain/kotlin/native/engine/NativeModel.kt')
       .writeAsStringSync(_modelTemplate());
 
   print('✅ Native Engine created successfully!');
 }
+
+// Templates
 
 String _gradleTemplate() => '''
 plugins {
