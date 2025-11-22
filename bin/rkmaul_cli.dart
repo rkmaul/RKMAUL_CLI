@@ -76,7 +76,7 @@ void main(List<String> arguments) {
 
     /** ─────────── NATIVE ENGINE (KMP) ─────────── */
     case 'create-native-engine':
-      createNativeEngine(name);
+      createNativeEngine();
       break;
 
     /** ─────────── DEFAULT ─────────── */

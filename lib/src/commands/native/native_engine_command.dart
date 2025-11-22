@@ -1,37 +1,37 @@
 import 'dart:io';
 
-void createNativeEngine(String name) {
-final path = 'native_engine_$name';
+void createNativeEngine() {
+  const path = 'native_engine';
 
-  print('🚀 Creating Native Engine Module: native_engine_$name');
+  print('🚀 Creating Native Engine Module: native_engine');
 
   // Create folder structure
-  Directory('$path').createSync(recursive: true);
-  Directory('$path/src/commonMain/kotlin').createSync(recursive: true);
+  Directory(path).createSync(recursive: true);
+  Directory('$path/src/commonMain/kotlin/native/engine').createSync(recursive: true);
   Directory('$path/src/commonMain/resources').createSync(recursive: true);
 
-  Directory('$path/src/androidMain/kotlin').createSync(recursive: true);
-  Directory('$path/src/iosMain/kotlin').createSync(recursive: true);
+  Directory('$path/src/androidMain/kotlin/native/engine').createSync(recursive: true);
+  Directory('$path/src/iosMain/kotlin/native/engine').createSync(recursive: true);
 
   // Write Gradle
-  File('$path/build.gradle.kts').writeAsStringSync(_gradleTemplate(name));
+  File('$path/build.gradle.kts').writeAsStringSync(_gradleTemplate());
 
   // Common API service
-  File('$path/src/commonMain/kotlin/ApiService.kt')
+  File('$path/src/commonMain/kotlin/native/engine/ApiService.kt')
       .writeAsStringSync(_apiServiceTemplate());
 
-  // Common repository
-  File('$path/src/commonMain/kotlin/${_capitalize(name)}Repository.kt')
-      .writeAsStringSync(_repositoryTemplate(name));
+  // Repository
+  File('$path/src/commonMain/kotlin/native/engine/NativeRepository.kt')
+      .writeAsStringSync(_repositoryTemplate());
 
-  // Common model
-  File('$path/src/commonMain/kotlin/${_capitalize(name)}Model.kt')
-      .writeAsStringSync(_modelTemplate(name));
+  // Model
+  File('$path/src/commonMain/kotlin/native/engine/NativeModel.kt')
+      .writeAsStringSync(_modelTemplate());
 
-  print('✅ Native Engine "$name" created successfully!');
+  print('✅ Native Engine created successfully!');
 }
 
-String _gradleTemplate(String name) => '''
+String _gradleTemplate() => '''
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -57,13 +57,13 @@ kotlin {
 }
 
 android {
-    namespace = "native.engine.$name"
+    namespace = "native.engine"
     compileSdk = 34
 }
 ''';
 
 String _apiServiceTemplate() => '''
-package native.engine.api
+package native.engine
 
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -79,26 +79,21 @@ class ApiService {
 }
 ''';
 
-String _repositoryTemplate(String name) => '''
-package native.engine.$name
+String _repositoryTemplate() => '''
+package native.engine
 
-import native.engine.api.ApiService
-
-class ${_capitalize(name)}Repository(
+class NativeRepository(
     private val api: ApiService = ApiService()
 ) {
     suspend fun getExample() = api.getFreeApi()
 }
 ''';
 
-String _modelTemplate(String name) => '''
-package native.engine.$name
+String _modelTemplate() => '''
+package native.engine
 
-data class ${_capitalize(name)}Model(
+data class NativeModel(
     val id: Int,
     val title: String
 )
 ''';
-
-String _capitalize(String text) =>
-    text[0].toUpperCase() + text.substring(1);
